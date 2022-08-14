@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import { auth, db } from "./firebase";
 
-import { AddCircle } from "@mui/icons-material";
+import { AddCircle, Logout } from "@mui/icons-material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import LogoutIcon from "@mui/icons-material/Logout";
 import {
   Box,
   Container,
@@ -29,7 +30,6 @@ const Home = () => {
   const [filteredTodos, setFilteredTodos] = useState([]);
   const history = useHistory();
   const { user } = useAuthContext();
-  const [render, setRender] = useState(false);
 
   useEffect(() => {
     const unSub = db.collection("todos").onSnapshot((snapshot) => {
@@ -170,7 +170,6 @@ const Home = () => {
   if (!user) {
     return <Redirect to="/login" />;
   } else {
-    setRender(true);
     return (
       <Container
         maxWidth="xs"
@@ -305,7 +304,16 @@ const Home = () => {
               );
             })}
           </ul>
-          <button onClick={handleLogout}>Log out</button>
+          <LogoutIcon
+            sx={{
+              color: "#2196f3",
+              fontSize: "48px",
+              cursor: "pointer",
+              display: "block",
+              margin: "20px 0 0 auto",
+            }}
+            onClick={handleLogout}
+          />
         </Box>
       </Container>
     );
