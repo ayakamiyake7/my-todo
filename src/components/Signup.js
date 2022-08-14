@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuthContext } from "../context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -39,17 +40,19 @@ export default function SignUp() {
   const { user } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
+  const [error, setError] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const { email, password } = event.target.elements;
-    auth.createUserWithEmailAndPassword(email.value, password.value);
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
-    // history.push("/home");
+    try {
+      await auth.createUserWithEmailAndPassword(email.value, password.value);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+    }
   };
 
   const handleChangeEmail = (e) => {
@@ -62,6 +65,7 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
+      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -93,6 +97,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  sx={{ bgcolor: "#fff" }}
                   onChange={handleChangeEmail}
                 />
               </Grid>
@@ -105,6 +110,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  sx={{ bgcolor: "#fff" }}
                   onChange={handleChangePassword}
                 />
               </Grid>
@@ -119,7 +125,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link href="/login" variant="body2" sx={{ color: "#333" }}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

@@ -64,7 +64,7 @@ export default function LogIn() {
 
   return (
     <ThemeProvider theme={theme}>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -96,6 +96,7 @@ export default function LogIn() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  sx={{ bgcolor: "#fff" }}
                   onChange={handleChangeEmail}
                 />
               </Grid>
@@ -108,6 +109,7 @@ export default function LogIn() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  sx={{ bgcolor: "#fff" }}
                   onChange={handleChangePassword}
                 />
               </Grid>
@@ -122,7 +124,7 @@ export default function LogIn() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="/signup" variant="body2" sx={{ color: "#333" }}>
                   Don't have an account? Sign Up
                 </Link>
               </Grid>
